@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/nav_vue"
+            android:title="Vue du jour" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/nav_matiere"
+            android:title="Nouvelle matiere" />
+    </group>
+
+    <item tools:ignore="MenuTitle">
+        <menu>
+            <item
+                android:id="@+id/nav_exercice"
+                android:icon="@drawable/nav_exercice"
+                android:title="Exercices" />
+            <item
+                android:id="@+id/nav_examen"
+                android:icon="@drawable/nav_examen"
+                android:title="Examens" />
+            <item
+                android:id="@+id/nav_notes"
+                android:icon="@drawable/nav_note"
+                android:title="Notes" />
+        </menu>
+
+    </item>
+
+    <item tools:ignore="MenuTitle">
+        <menu>
+            <item
+                android:id="@+id/nav_feries"
+                android:icon="@drawable/nav_ferie"
+                android:title="Jours feriés" />
+            <item
+                android:id="@+id/nav_Annulations"
+                android:icon="@drawable/nav_annulation"
+                android:title="Annulations" />
+        </menu>
+    </item>
+
+    <item android:title="Paramètres">
+        <menu>
+            <item
+                android:id="@+id/nav_outils"
+                android:icon="@drawable/nav_outil"
+                android:title="Outils" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/nav_parametre"
+                android:title="Réglages" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@android:drawable/ic_menu_info_details"
+                android:title="Info" />
+        </menu>
+    </item>
+
+</menu>

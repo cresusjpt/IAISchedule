@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IAISchedule</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Paramètres</string>
+    <string name="cours">cours</string>
+    <string name="backup_restore">Backup/Restore</string>
+    <string name="title_activity_controle_presence">Contrôle de Presence</string>
+    <string name="envoyer">Envoyer</string>
+</resources>

@@ -16,6 +16,11 @@ public class TPersonne implements Parcelable {
     private String PRENOMPERSONNE;
     private String TELEPHONEPERSONNE;
     private String SEXEPERSONNE;
+    private String PHOTOPERSONNE;
+
+    public TPersonne(int IDPERSONNE) {
+        this.IDPERSONNE = IDPERSONNE;
+    }
 
     public TPersonne(int IDPERSONNE, String NOMPERSONNE, String PRENOMPERSONNE, String TELEPHONEPERSONNE, String SEXEPERSONNE) {
         this.IDPERSONNE = IDPERSONNE;
@@ -46,7 +51,6 @@ public class TPersonne implements Parcelable {
     public TPersonne(JSONObject jsonObject) {
 
         this.IDPERSONNE = jsonObject.optInt("IDPERSONNE");
-
         this.NOMPERSONNE = jsonObject.optString("NOMPERSONNE");
         this.TELEPHONEPERSONNE = jsonObject.optString("TELEPHONEPERSONNE");
         this.PRENOMPERSONNE = jsonObject.optString("PRENOMPERSONNE");
@@ -113,6 +117,14 @@ public class TPersonne implements Parcelable {
 
     public String getSEXEPERSONNE() {
         return SEXEPERSONNE;
+    }
+
+    public String getPHOTOPERSONNE() {
+        return PHOTOPERSONNE;
+    }
+
+    public void setPHOTOPERSONNE(String PHOTOPERSONNE) {
+        this.PHOTOPERSONNE = PHOTOPERSONNE;
     }
 
     public void setSEXEPERSONNE(String SEXEPERSONNE) {

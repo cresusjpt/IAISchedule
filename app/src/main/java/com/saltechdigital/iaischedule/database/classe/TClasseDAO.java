@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.saltechdigital.iaischedule.database.DAOBase;
-import com.saltechdigital.iaischedule.database.eleve.TEleve;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,17 +41,24 @@ public class TClasseDAO extends DAOBase {
             valeur.put(NOMCLASSE, m.getNOMCLASSE());
         }
 
+        if (m.getIDCLASSE() != 0) {
+            valeur.put(KEY, m.getIDCLASSE());
+        } else {
+            valeur.put(KEY, taille() + 1);
+        }
         database.insert(TABLE_NAME, null, valeur);
-        Log.d("JEANPAUL", "ENREGISTREMENT REUSSI");
+        database.close();
     }
 
     public int getId(String nomClasse) {
         int retourne = 0;
+        database = open();
         Cursor cursor = database.rawQuery("SELECT " + KEY + " FROM " + TABLE_NAME + " WHERE " + NOMCLASSE + " = ?", new String[]{nomClasse});
         if (cursor.moveToFirst()) {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -67,8 +72,19 @@ public class TClasseDAO extends DAOBase {
     public void supprimer(long id) {
         database = open();
         database.delete(TABLE_NAME, KEY + " = ?", new String[]{String.valueOf(id)});
-        super.close();
-        // CODE
+        database.close();
+    }
+
+    public String getNomclasse(int idClasse) {
+        database = open();
+        String retourne = "";
+        Cursor cursor = database.rawQuery("SELECT " + NOMCLASSE + " FROM " + TABLE_NAME + " WHERE " + KEY + " = ?", new String[]{String.valueOf(idClasse)});
+        if (cursor.moveToFirst()) {
+            retourne = cursor.getString(0);
+        }
+        cursor.close();
+        database.close();
+        return retourne;
     }
 
     public void modifierNomClasse(TClasse m) {
@@ -78,6 +94,7 @@ public class TClasseDAO extends DAOBase {
         valeur.put(NOMCLASSE, m.getNOMCLASSE());
         database.update(TABLE_NAME, valeur, KEY + " = ?", new String[]{String.valueOf(m.getNOMCLASSE())});
         // CODE
+        database.close();
     }
 
     public TClasse selectionner(long id) {
@@ -93,6 +110,7 @@ public class TClasseDAO extends DAOBase {
         }
 
         c.close();
+        database.close();
         return classe;
     }
 
@@ -104,6 +122,7 @@ public class TClasseDAO extends DAOBase {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -126,6 +145,7 @@ public class TClasseDAO extends DAOBase {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        database.close();
         return liste;
     }
 }

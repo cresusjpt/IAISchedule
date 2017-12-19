@@ -1,7 +1,11 @@
 package com.saltechdigital.iaischedule.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,8 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.saltechdigital.iaischedule.ControlePresenceActivity;
+import com.saltechdigital.iaischedule.IAISchedule;
 import com.saltechdigital.iaischedule.R;
 import com.saltechdigital.iaischedule.database.cours.TCours;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -66,6 +72,8 @@ public class MyAdapterCoursPresence extends RecyclerView.Adapter<MyAdapterCoursP
         private ImageView iv_image;
         private LinearLayout linearLayout;
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
         MyViewHolder(final View itemView) {
             super(itemView);
             nomCours = itemView.findViewById(R.id.tv_nomCours);
@@ -75,7 +83,13 @@ public class MyAdapterCoursPresence extends RecyclerView.Adapter<MyAdapterCoursP
             iv_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("JEANPAUL", "IMAGE CLICK");
+                    View view = LayoutInflater.from(context).inflate(R.layout.image_profil, null);
+                    ImageView profil = view.findViewById(R.id.profil_icon);
+                    Picasso.with(context).load(current.getNOMCOURS()).placeholder(R.drawable.graduation_color).into(profil);
+                    builder.setView(view);
+                    builder.setTitle(current.getNOMCOURS());
+                    builder.setCancelable(true);
+                    builder.create().show();
                 }
             });
 
@@ -87,6 +101,34 @@ public class MyAdapterCoursPresence extends RecyclerView.Adapter<MyAdapterCoursP
                     context.startActivity(intent);
                 }
             });
+
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+            String methode = preferences.getString("METHODE", "ELEVE");
+
+            if (methode.equals("PROFESSEUR")) {
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+
+                        builder.setItems(new CharSequence[]{"Contrôle de presence"}, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                new IAISchedule().checkControlePresence(context, "CREATE", "" + current.getIDCOURS());
+                            }
+                        });
+                        builder.setTitle("Validation de Presence");
+                        builder.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        builder.create().show();
+
+                        return true;
+                    }
+                });
+            }
 
         }
 

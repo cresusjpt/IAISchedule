@@ -1,0 +1,34 @@
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:title="EXPORTER"
+        android:key="exporter"
+        android:iconSpaceReserved="true"
+        tools:targetApi="o" />
+
+    <Preference
+        android:title="IMPORTER"
+        android:key="importer"
+        android:iconSpaceReserved="true"
+        tools:targetApi="o" />
+
+    <Preference
+        android:title="UPLOADER"
+        android:key="uploader"
+        android:iconSpaceReserved="true"
+        tools:targetApi="o" />
+
+    <Preference
+        android:title="TELECHARGER"
+        android:key="download"
+        android:iconSpaceReserved="true"
+        tools:targetApi="o" />
+
+    <Preference
+        android:title="CREER UNE IMAGE"
+        android:key="image"
+        android:iconSpaceReserved="true"
+        tools:targetApi="o" />
+
+</PreferenceScreen>

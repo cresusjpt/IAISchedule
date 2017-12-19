@@ -1,17 +1,28 @@
 package com.saltechdigital.iaischedule.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.saltechdigital.iaischedule.MemoScheduleActivity;
+import com.saltechdigital.iaischedule.R;
+import com.saltechdigital.iaischedule.database.classe.TClasseDAO;
+import com.saltechdigital.iaischedule.database.cours.TCours;
+import com.saltechdigital.iaischedule.database.horaire.THoraire;
+import com.saltechdigital.iaischedule.database.journee.TJournee;
 import com.saltechdigital.iaischedule.database.personne.TPersonne;
+import com.saltechdigital.iaischedule.database.schedule.TSchedule;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 
@@ -21,11 +32,24 @@ import java.util.List;
 
 public class MyAdapterCours extends RecyclerView.Adapter<MyAdapterCours.MyViewHolder> {
     private Context context;
-    private final List<TPersonne> mal;
+    private final List<TSchedule> mal;
+    private final List<TJournee> journeeList;
+    private final List<THoraire> horaireList;
+    private final List<TCours> coursList;
+    private final List<TPersonne> personneList;
+    private SharedPreferences preferences;
+    private final String methode;
+    private TClasseDAO classeDAO;
 
-    public MyAdapterCours(Context context, List<TPersonne> liste) {
+    public MyAdapterCours(Context context, List<TSchedule> liste, List<TJournee> journees, List<THoraire> horaireList, List<TCours> coursList, List<TPersonne> personneList) {
         this.context = context;
         this.mal = liste;
+        this.journeeList = journees;
+        this.horaireList = horaireList;
+        this.coursList = coursList;
+        this.personneList = personneList;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        methode = preferences.getString("METHODE", "ELEVE");
     }
 
     @Override
@@ -36,9 +60,8 @@ public class MyAdapterCours extends RecyclerView.Adapter<MyAdapterCours.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        //View view = inflater.inflate(R.layout.list_convers, parent, false);
-        //return new MyViewHolder(view);
-        return null;
+        View view = inflater.inflate(R.layout.list_schedule, parent, false);
+        return new MyViewHolder(view);
     }
 
     private void setAnimation(View toAnimate) {
@@ -49,90 +72,67 @@ public class MyAdapterCours extends RecyclerView.Adapter<MyAdapterCours.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TPersonne actuel = mal.get(position);
-        //holder.card_view.setBackgroundResource(R.drawable.state_list);
-        //holder.iv_image.setBackgroundResource(R.drawable.state_button);
-        //holder.display(actuel);
-        //setAnimation(holder.card_view);
+        TSchedule actuelSchedule = mal.get(position);
+        TJournee actuelJournee = journeeList.get(position);
+        THoraire actuelHoraire = horaireList.get(position);
+        TCours actuelCours = coursList.get(position);
+        TPersonne actuelPersonne = personneList.get(position);
+
+
+        holder.linear_top.setBackgroundResource(R.drawable.state_schedule);
+        holder.display(actuelSchedule, actuelJournee, actuelHoraire, actuelCours, actuelPersonne);
+        setAnimation(holder.linear_top);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView utilisateur, classe;
-        private TPersonne current;
-        private ImageView iv_image;
-        //private CardView card_view;
+        private TextView journ, heure, classeProf;
+        private LinearLayout linear_top;
+
+        private TSchedule currentSchedule;
+        private TJournee currentJournee;
+        private THoraire currentHoraire;
+        private TCours currentCours;
+        private TPersonne currentPersonne;
 
         MyViewHolder(final View itemView) {
             super(itemView);
-            // utilisateur = ((TextView) itemView.findViewById(R.id.tv_nomUtilisateur));
-            //1 classe = ((TextView) itemView.findViewById(R.id.tv_classe));
-            // card_view = (CardView) itemView.findViewById(R.id.card_view14);
-            //iv_image = (ImageView) itemView.findViewById(R.id.iv_convers);
-
-            /*iv_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("JEANPAUL", "IMAGE CLICK");
-                }
-            });*/
+            journ = itemView.findViewById(R.id.tv_dateSchedule);
+            heure = itemView.findViewById(R.id.tv_heure_shedule);
+            classeProf = itemView.findViewById(R.id.tv_scheduleClasse);
+            linear_top = itemView.findViewById(R.id.linear_top);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    linearLayoutClick(v);
+                    Intent intent = new Intent(context, MemoScheduleActivity.class);
+                    intent.putExtra("SCHEDULE", currentSchedule);
+                    intent.putExtra("COURS", currentCours);
+                    intent.putExtra("JOURNEE", currentJournee);
+                    intent.putExtra("HORAIRE", currentHoraire);
+                    intent.putExtra("PERSONNE", currentPersonne);
+                    context.startActivity(intent);
                 }
             });
 
         }
 
-        private void linearLayoutClick(View v) {
-            int idConversation;
-            //    TPersonneConversDAO personneConversDAO = new TPersonneConversDAO(context);
+        void display(TSchedule newsSchedule, TJournee newsJournee, THoraire newsHoraire, TCours newsCours, TPersonne newsPersonne) {
+            currentSchedule = newsSchedule;
+            currentJournee = newsJournee;
+            currentHoraire = newsHoraire;
+            currentCours = newsCours;
+            currentPersonne = newsPersonne;
 
-            //  int conversCreated = personneConversDAO.conversChatCreated(current.getIDPERSONNE());
-
-            //       Intent intent = new Intent(v.getContext(), com.saltechdigital.iaidiscuss.ChatWriting.class);
-//            //on a pas une conversation avec la personne
-//            if (conversCreated == 0) {
-//                idConversation = createConversation();
-//            } else {
-//                idConversation = conversCreated;
-//            }
-//
-//            personneConversDAO.close();
-//            intent.putExtra("personne", current);
-//            intent.putExtra("idConversation", idConversation);
-//            v.getContext().startActivity(intent);
+            journ.setText(newsJournee.getNOMJOUR());
+            heure.setText(newsHoraire.getHEURE());
+            if (methode.equals("PROFESSEUR")) {
+                classeDAO = new TClasseDAO(context);
+                classeProf.setText(classeDAO.getNomclasse(currentCours.getIDCLASSE()));
+                classeDAO.close();
+            } else {
+                classeProf.setText(MessageFormat.format("{0} {1}", currentPersonne.getNOMPERSONNE(), currentPersonne.getPRENOMPERSONNE()));
+            }
         }
 
-        /*private int createConversation() {
-            TConversationDAO tConversationDAO = new TConversationDAO(context);
-            TPersonneConversDAO tPersonneConversDAO = new TPersonneConversDAO(context);
-
-            TConversation newConversation = new TConversation(Constantes.REGLE.CONVERSATION + current.getNOMPERSONNE().concat(current.getPRENOMPERSONNE()), 1);
-            tConversationDAO.ajouter(newConversation);
-
-
-            TConversation persConvers = tConversationDAO.lastInsert();
-            TPersonneConvers personneConvers = new TPersonneConvers(current, persConvers);
-
-            tPersonneConversDAO.ajouter(personneConvers);
-
-            TConversation lastInsertConverstaion = tConversationDAO.lastInsert();
-
-            tConversationDAO.close();
-            tPersonneConversDAO.close();
-
-            return lastInsertConverstaion.getIDCONVERSATION();
-
-        }
-
-        void display(TPersonne news) {
-            current = news;
-            utilisateur.setText(MessageFormat.format("{0}{1}{2}", news.getNOMPERSONNE()," ", news.getPRENOMPERSONNE()));
-            classe.setText(news.getCLASSEPERSONNE());
-        }
-
-        */
     }
 }

@@ -25,6 +25,16 @@ public class TCours implements Parcelable {
         this.NOMCOURS = NOMCOURS;
     }
 
+    public TCours(JSONObject jsonObject) {
+
+        this.IDCOURS = jsonObject.optInt("IDCOURS");
+        this.NOMCOURS = jsonObject.optString("NOMCOURS");
+        this.IDCLASSE = jsonObject.optInt("IDCLASSE");
+        this.IDPROF = jsonObject.optInt("IDPROF");
+        this.IDPERSONNE = jsonObject.optInt("IDPERSONNE");
+    }
+
+
     public TCours() {
     }
 

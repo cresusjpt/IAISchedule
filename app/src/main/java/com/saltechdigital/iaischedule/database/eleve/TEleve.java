@@ -14,16 +14,15 @@ public class TEleve implements Parcelable {
     private int IDELEVE;
     private int IDPERSONNE;
     private int IDCLASSE;
+    private int RESPONSABLE;
 
-    public String getRESPONSABLE() {
+    public int getRESPONSABLE() {
         return RESPONSABLE;
     }
 
-    public void setRESPONSABLE(String RESPONSABLE) {
+    public void setRESPONSABLE(int RESPONSABLE) {
         this.RESPONSABLE = RESPONSABLE;
     }
-
-    private String RESPONSABLE;
 
 
     public TEleve(int IDELEVE, int IDPERSONNE, int IDCLASSE) {
@@ -45,7 +44,7 @@ public class TEleve implements Parcelable {
         IDELEVE = in.readInt();
         IDPERSONNE = in.readInt();
         IDCLASSE = in.readInt();
-        RESPONSABLE = in.readString();
+        RESPONSABLE = in.readInt();
     }
 
     public TEleve(JSONObject jsonObject) {
@@ -53,7 +52,7 @@ public class TEleve implements Parcelable {
         this.IDELEVE = jsonObject.optInt("IDELEVE");
         this.IDPERSONNE = jsonObject.optInt("IDPERSONNE");
         this.IDCLASSE = jsonObject.optInt("IDCLASSE");
-        this.RESPONSABLE = jsonObject.optString("RESPONSABLE");
+        this.RESPONSABLE = jsonObject.optInt("RESPONSABLE");
     }
 
     public static final Creator<TEleve> CREATOR = new Creator<TEleve>() {
@@ -78,7 +77,7 @@ public class TEleve implements Parcelable {
         parcel.writeInt(IDELEVE);
         parcel.writeInt(IDPERSONNE);
         parcel.writeInt(IDCLASSE);
-        parcel.writeString(RESPONSABLE);
+        parcel.writeInt(RESPONSABLE);
     }
 
     public int getIDELEVE() {

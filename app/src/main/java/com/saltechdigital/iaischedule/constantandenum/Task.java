@@ -7,14 +7,14 @@ package com.saltechdigital.iaischedule.constantandenum;
 
 public enum Task {
     // Il faut appeler l'un des constructeurs déclarés plus bas :
-    URL("http://iaidiscuss.alwaysdata.net/iaidiscuss", false),
+    URL("http://10.0.2.2:8090/iaischedule", false),
 
     CREATIONLOGINFILE("inscription.php", false),
     ENREGFILE("enregistrer.php", false),
     LOGINFILE("verif.php", false, "tropical"),
-    RECUPSTATIONFILE("recupStation.php", false),
+    RECUPPRESENCEFILE("recupPresence.php", false),
     RECUPTYPECUVEFILE("recupTypeCuve.php"),
-    MAKEDEPOTFILE("makeDepot.php", false); // <- NB: le point-virgule pour mettre fin à la liste des constantes !
+    MAKEVALIDFILE("makeValid.php", false); // <- NB: le point-virgule pour mettre fin à la liste des constantes !
 
     // Membres :
     private final String environnement;

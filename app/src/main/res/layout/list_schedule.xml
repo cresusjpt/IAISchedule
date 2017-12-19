@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/text_margin"
+    android:layout_marginLeft="@dimen/text_margin"
+    android:layout_marginRight="@dimen/text_margin"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:background="@color/colorSchedule"
+    android:layout_alignParentTop="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:id="@+id/tv_dateSchedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="start"
+            android:padding="5dp"
+            android:text="sfdfdfdfdfdfdfdf" />
+
+        <TextView
+            android:id="@+id/tv_heure_shedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@android:drawable/ic_menu_recent_history"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:padding="1dp"
+            android:layout_marginEnd="5dp"
+            android:text="07h-30 - 09h30" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@android:drawable/divider_horizontal_textfield"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
+        android:contentDescription="@string/app_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="10dp">
+
+        <TextView
+            android:id="@+id/tv_scheduleClasse"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:padding="5dp"
+            android:text="sfdfdfdfdfdfdfdf" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:src="@android:drawable/divider_horizontal_textfield"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
+        android:contentDescription="@string/app_name" />
+
+</LinearLayout>

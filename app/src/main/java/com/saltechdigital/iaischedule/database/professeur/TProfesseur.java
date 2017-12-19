@@ -3,6 +3,8 @@ package com.saltechdigital.iaischedule.database.professeur;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 /**
  * Created by Jeanpaul Tossou on 14/01/2017.
  */
@@ -20,6 +22,10 @@ public class TProfesseur implements Parcelable {
     public TProfesseur() {
     }
 
+    public TProfesseur(JSONObject jsonObject) {
+        this.IDPROF = jsonObject.optInt("IDPROF");
+        this.IDPERSONNE = jsonObject.optInt("IDPERSONNE");
+    }
 
     protected TProfesseur(Parcel in) {
         IDPROF = in.readInt();

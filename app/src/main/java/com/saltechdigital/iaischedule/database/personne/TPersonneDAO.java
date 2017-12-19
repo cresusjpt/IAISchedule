@@ -20,17 +20,13 @@ import java.util.List;
 public class TPersonneDAO extends DAOBase {
 
     private static final String TABLE_NAME = "PERSONNE";
-    private static final String KEY = "IDPERSONNE";
+    public static final String KEY = "IDPERSONNE";
 
-    private static final String NOM_PERSONNE = "NOMPERSONNE";
-    private static final String PRENOM_PERSONNE = "PRENOMPERSONNE";
-    private static final String TELEPHONE_PERSONNE = "TELEPHONEPERSONNE";
-    private static final String MDP_PERSONNE = "MOTDEPASSEPERSONNE";
-    private static final String STATUT_PERSONNE = "STATUTPERSONNE";
-    private static final String PHOTO_PERSONNE = "PHOTOPERSONNE";
-    private static final String JID_PERSONNE = "JIDACCOUNTPERSONNE";
-    private static final String SEXE_PERSONNE = "SEXEPERSONNE";
-    private static final String CLASSE_PERSONNE = "CLASSEPERSONNE";
+    public static final String NOM_PERSONNE = "NOMPERSONNE";
+    public static final String PRENOM_PERSONNE = "PRENOMPERSONNE";
+    public static final String TELEPHONE_PERSONNE = "TELEPHONEPERSONNE";
+    public static final String JID_PERSONNE = "JIDACCOUNTPERSONNE";
+    public static final String SEXE_PERSONNE = "SEXEPERSONNE";
 
     private Context context;
 
@@ -60,8 +56,13 @@ public class TPersonneDAO extends DAOBase {
             valeur.put(TELEPHONE_PERSONNE, m.getTELEPHONEPERSONNE());
         }
 
+        if (m.getIDPERSONNE() == 0) {
+            valeur.put(KEY, taille() + 1);
+        } else {
+            valeur.put(KEY, m.getIDPERSONNE());
+        }
         database.insert(TABLE_NAME, null, valeur);
-        Log.d("JEANPAUL", "ENREGISTREMENT REUSSI DE LA PERSONNE");
+        database.close();
     }
 
     public int getId(String jid) {
@@ -123,10 +124,11 @@ public class TPersonneDAO extends DAOBase {
             tPersonne.setNOMPERSONNE(c.getString(1));
             tPersonne.setPRENOMPERSONNE(c.getString(2));
             tPersonne.setTELEPHONEPERSONNE(String.valueOf(c.getInt(3)));
-            tPersonne.setSEXEPERSONNE(c.getString(8));
+            tPersonne.setSEXEPERSONNE(c.getString(4));
             return tPersonne;
         }
         c.close();
+        database.close();
         return tPersonne;
     }
 
@@ -146,32 +148,29 @@ public class TPersonneDAO extends DAOBase {
         return personne;
     }
 
-    public List<TPersonne> selectionnerPersonneByConvers() {
+    public TPersonne selectionnerResponsable() {
         database = open();
 
         List<TPersonne> list = new ArrayList<>();
-        String requete = "SELECT p.*,pc.*,c.*\n" +
-                "FROM personne p,personneconvers pc,conversation c,typeconversation t\n" +
-                "WHERE p.`IDPERSONNE` = pc.`IDPERSONNE`\n" +
-                "AND pc.`IDCONVERS` = c.`IDCONVERS`\n" +
-                "AND c.`IDTYPEMESSAGE` = t.`IDTYPEMESSAGE`\n" +
-                "AND t.`LIBELLETYPEMESSAGE` = ?";
+        String requete = "SELECT p.*\n" +
+                "FROM personne p, eleve e\n" +
+                "WHERE p.`IDPERSONNE` = e.`IDPERSONNE`\n" +
+                "AND e.`RESPONSABLE` = ?";
 
-        Cursor cursor = database.rawQuery(requete, new String[]{Constantes.REGLE.CHAT});
+        Cursor cursor = database.rawQuery(requete, new String[]{"1"});
 
+        TPersonne personne = new TPersonne();
         if (cursor.moveToFirst()) {
-            do {
-                TPersonne personne = new TPersonne();
-                personne.setIDPERSONNE(cursor.getInt(0));
-                personne.setNOMPERSONNE(cursor.getString(1));
-                personne.setPRENOMPERSONNE(cursor.getString(2));
-                personne.setTELEPHONEPERSONNE(cursor.getString(3));
-                personne.setSEXEPERSONNE(cursor.getString(8));
-                list.add(personne);
-            } while (cursor.moveToNext());
+            personne.setIDPERSONNE(cursor.getInt(0));
+            personne.setNOMPERSONNE(cursor.getString(1));
+            personne.setPRENOMPERSONNE(cursor.getString(2));
+            personne.setTELEPHONEPERSONNE(cursor.getString(3));
+            personne.setSEXEPERSONNE(cursor.getString(4));
+            list.add(personne);
         }
         cursor.close();
-        return list;
+        database.close();
+        return personne;
 
     }
 
@@ -183,6 +182,7 @@ public class TPersonneDAO extends DAOBase {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -203,7 +203,7 @@ public class TPersonneDAO extends DAOBase {
                 personne.setNOMPERSONNE(cursor.getString(1));
                 personne.setPRENOMPERSONNE(cursor.getString(2));
                 personne.setTELEPHONEPERSONNE(cursor.getString(3));
-                personne.setSEXEPERSONNE(cursor.getString(8));
+                personne.setSEXEPERSONNE(cursor.getString(4));
                 liste.add(personne);
             } while (cursor.moveToNext());
         }

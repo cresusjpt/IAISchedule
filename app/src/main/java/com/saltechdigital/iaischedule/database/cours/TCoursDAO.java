@@ -53,8 +53,14 @@ public class TCoursDAO extends DAOBase {
             valeur.put(NOMCOURS, m.getNOMCOURS());
         }
 
+        if (m.getIDCOURS() != 0) {
+            valeur.put(KEY, m.getIDCOURS());
+        } else {
+            valeur.put(KEY, taille() + 1);
+        }
+
         database.insert(TABLE_NAME, null, valeur);
-        Log.d("JEANPAUL", "ENREGISTREMENT REUSSI");
+        database.close();
     }
 
     public int getId(String nomCours) {
@@ -72,6 +78,23 @@ public class TCoursDAO extends DAOBase {
         for (TCours cours : coursList) {
             ajouter(cours);
         }
+    }
+
+    public List<Integer> getAllId() {
+        database = open();
+
+        List<Integer> retourne = new ArrayList<>();
+
+        String requete = "select " + KEY + " FROM " + TABLE_NAME;
+
+        Cursor cursor = database.rawQuery(requete, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                retourne.add(cursor.getInt(0));
+            } while (cursor.moveToNext());
+        }
+        return retourne;
     }
 
     public void supprimer(long id) {
@@ -116,6 +139,7 @@ public class TCoursDAO extends DAOBase {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -125,7 +149,7 @@ public class TCoursDAO extends DAOBase {
 
         List<TCours> liste = new ArrayList<>();
 
-        String requete = "SELECT * FROM " + TABLE_NAME/* + " WHERE " + KEY + " <> ?"*/;
+        String requete = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + NOMCOURS/* + " WHERE " + KEY + " <> ?"*/;
 
         Cursor cursor = database.rawQuery(requete, /*new String[]{String.valueOf(1)}*/null);
 
@@ -141,6 +165,7 @@ public class TCoursDAO extends DAOBase {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        database.close();
         return liste;
     }
 }

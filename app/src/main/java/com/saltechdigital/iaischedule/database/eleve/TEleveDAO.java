@@ -46,21 +46,29 @@ public class TEleveDAO extends DAOBase {
         if (m.getIDPERSONNE() != 0) {
             valeur.put(IDPERSONNE, m.getIDPERSONNE());
         }
-        if (m.getRESPONSABLE() != null) {
+        if (m.getRESPONSABLE() != 0) {
             valeur.put(RESPONSABLE, m.getRESPONSABLE());
         }
 
+        if (m.getIDELEVE() != 0) {
+            valeur.put(KEY, m.getIDELEVE());
+        } else {
+            valeur.put(KEY, taille() + 1);
+        }
+
         database.insert(TABLE_NAME, null, valeur);
-        Log.d("JEANPAUL", "ENREGISTREMENT REUSSI");
+        database.close();
     }
 
     public int getId(String responsable) {
         int retourne = 0;
+        database = open();
         Cursor cursor = database.rawQuery("SELECT " + KEY + " FROM " + TABLE_NAME + " WHERE " + RESPONSABLE + " = ?", new String[]{responsable});
         if (cursor.moveToFirst()) {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -74,8 +82,7 @@ public class TEleveDAO extends DAOBase {
     public void supprimer(long id) {
         database = open();
         database.delete(TABLE_NAME, KEY + " = ?", new String[]{String.valueOf(id)});
-        super.close();
-        // CODE
+        database.close();
     }
 
     public void modifierResponsable(TEleve m) {
@@ -84,7 +91,7 @@ public class TEleveDAO extends DAOBase {
         ContentValues valeur = new ContentValues();
         valeur.put(RESPONSABLE, m.getRESPONSABLE());
         database.update(TABLE_NAME, valeur, KEY + " = ?", new String[]{String.valueOf(m.getIDPERSONNE())});
-        // CODE
+        database.close();
     }
 
     public TEleve selectionner(long id) {
@@ -96,11 +103,12 @@ public class TEleveDAO extends DAOBase {
         if (c.moveToFirst()) {
             eleve.setIDELEVE(c.getInt(0));
             eleve.setIDPERSONNE(c.getInt(1));
-            eleve.setRESPONSABLE(c.getString(2));
+            eleve.setRESPONSABLE(c.getInt(2));
             eleve.setIDCLASSE(c.getInt(3));
             return eleve;
         }
         c.close();
+        database.close();
         return eleve;
     }
 
@@ -112,6 +120,7 @@ public class TEleveDAO extends DAOBase {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
@@ -130,12 +139,13 @@ public class TEleveDAO extends DAOBase {
                 TEleve eleve = new TEleve();
                 eleve.setIDELEVE(cursor.getInt(0));
                 eleve.setIDPERSONNE(cursor.getInt(1));
-                eleve.setRESPONSABLE(cursor.getString(2));
+                eleve.setRESPONSABLE(cursor.getInt(2));
                 eleve.setIDCLASSE(cursor.getInt(3));
                 liste.add(eleve);
             } while (cursor.moveToNext());
         }
         cursor.close();
+        database.close();
         return liste;
     }
 }

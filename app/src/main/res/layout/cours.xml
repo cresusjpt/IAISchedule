@@ -3,9 +3,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/schedule_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+    </android.support.v7.widget.SearchView>
+
+    <RadioGroup
+        android:id="@+id/rg_journee"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/lundi"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/lundi" />
+
+        <RadioButton
+            android:id="@+id/mardi"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/mardi" />
+
+        <RadioButton
+            android:id="@+id/merc"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/mercredi" />
+
+        <RadioButton
+            android:id="@+id/jeudi"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/jeudi" />
+
+        <RadioButton
+            android:id="@+id/vend"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/vendredi" />
+
+        <RadioButton
+            android:id="@+id/same"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/samedi" />
+
+        <RadioButton
+            android:id="@+id/all"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:layout_height="wrap_content"
+            android:text="@string/all" />
+
+    </RadioGroup>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/rg_journee"
         android:id="@+id/rv_cours"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

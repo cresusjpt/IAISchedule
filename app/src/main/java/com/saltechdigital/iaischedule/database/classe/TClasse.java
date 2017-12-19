@@ -3,6 +3,8 @@ package com.saltechdigital.iaischedule.database.classe;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 /**
  * Created by Jeanpaul Tossou on 30/12/2016.
  */
@@ -46,6 +48,11 @@ public class TClasse implements Parcelable {
     protected TClasse(Parcel in) {
         IDCLASSE = in.readInt();
         NOMCLASSE = in.readString();
+    }
+
+    public TClasse(JSONObject jsonObject) {
+        this.IDCLASSE = jsonObject.optInt("IDCLASSE");
+        this.NOMCLASSE = jsonObject.optString("NOMCLASSE");
     }
 
     public static final Creator<TClasse> CREATOR = new Creator<TClasse>() {

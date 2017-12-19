@@ -44,8 +44,14 @@ public class TProfesseurDAO extends DAOBase {
             valeur.put(IDPERSONNE, m.getIDPERSONNE());
         }
 
+        if (m.getIDPROF() != 0) {
+            valeur.put(KEY, m.getIDPROF());
+        } else {
+            valeur.put(KEY, taille() + 1);
+        }
+
         database.insert(TABLE_NAME, null, valeur);
-        Log.d("JEANPAUL", "ENREGISTREMENT REUSSI");
+        database.close();
     }
 
     public int getId(int idPersonne) {
@@ -106,6 +112,7 @@ public class TProfesseurDAO extends DAOBase {
             retourne = cursor.getInt(0);
         }
         cursor.close();
+        database.close();
         return retourne;
     }
 
